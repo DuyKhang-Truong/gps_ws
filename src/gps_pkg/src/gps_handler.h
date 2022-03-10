@@ -14,6 +14,7 @@ serial::Serial ser_Data_Port;
 
 #define ser_Data_Port_Name "/dev/ttyUSB0"
 #define gps_spl_quantity 10
+#define GPRMC_length 70
 
 struct co_ordinates
 {
@@ -27,15 +28,24 @@ struct coord_strore
     vector<float> lng_spl;
 };
 
+struct sog_cog
+{
+    float sog;
+    float cog;
+};
+
+
 struct gps_analysis_param
 {
+    string token;
     int pos;
     int cnt;
     int degLat;
     int degLng;
     float minLat;
     float minLng;
-    string token;
+    float speed;
+    float course;
 };
 
 struct dec_drift_data_param
@@ -49,7 +59,9 @@ struct dec_drift_data_param
 
 
 
-void gps_analysis(string raw_data, char delimiter, co_ordinates &raw_ltn, gps_analysis_param analysis_param);
+void GPGLL_analysis(string raw_data, uint16_t dataLen, co_ordinates &raw_ltn, gps_analysis_param analysis_param);
+
+void GPRMC_analysis(string raw_data, uint16_t dataLen, co_ordinates &raw_ltn, sog_cog &raw_sog_cog, gps_analysis_param analysis_param);
 
 void update_gps_spl(coord_strore &raw_data_spl, co_ordinates raw_ltn);
 

@@ -1,0 +1,52 @@
+View -> Messages
+
+*** Baudrate: 115 200
+0000  B5 62 06 00 14 00 01 00 00 00 D0 08 00 00 00 C2  µb........Ð....Â		UBX CFG-PRT,  Size  28,  'Ports'
+0010  01 00 07 00 03 00 00 00 00 00 C0 7E              ..........À~.
+
+0000  B5 62 06 00 01 00 01 08 22                       µb......".		UBX CFG,  Size   9,  'Config'
+
+
+*** Measurement Period: 50ms
+0000  B5 62 06 08 06 00 32 00 01 00 01 00 48 E6        µb....2.....Hæ.		UBX CFG-RATE,  Size  14,  'Rates'
+          
+0000  B5 62 06 08 00 00 0E 30                          µb.....0.		UBX CFG,  Size   8,  'Config'
+
+*** Measurement Period: 100ms
+0000  B5 62 06 08 06 00 64 00 01 00 01 00 7A 12        µb....d.....z..		UBX CFG-RATE,  Size  14,  'Rates'
+          
+0000  B5 62 06 08 00 00 0E 30                          µb.....0.		UBX CFG,  Size   8,  'Config'
+
+
+*** Measurement Period: 150ms
+0000  B5 62 06 08 06 00 96 00 01 00 01 00 AC 3E        
+          
+0000  B5 62 06 08 00 00 0E 30
+
+
+*** Measurement Period: 200ms
+0000  B5 62 06 08 06 00 C8 00 01 00 01 00 DE 6A        
+          
+0000  B5 62 06 08 00 00 0E 30
+
+          
+*** Disable
+$GPRMC: B5 62 06 01 03 00 F0 04 00 FE 17
+$GPVTG: B5 62 06 01 03 00 F0 05 00 FF 19
+$GPGGA: B5 62 06 01 03 00 F0 00 00 FA 0F
+$GPGSA: B5 62 06 01 03 00 F0 02 00 FC 13
+$GPGSV: B5 62 06 01 03 00 F0 03 00 FD 15
+$GPGLL: B5 62 06 01 03 00 F0 01 00 FB 11
+
+*** Enable
+$GPRMC: B5 62 06 01 03 00 F0 04 01 FF 18
+$GPVTG: B5 62 06 01 03 00 F0 05 01 00 1A
+$GPGGA: B5 62 06 01 03 00 F0 00 01 FB 10
+$GPGSA: B5 62 06 01 03 00 F0 02 01 FD 14
+$GPGSV: B5 62 06 01 03 00 F0 03 01 FE 16
+$GPGLL: B5 62 06 01 03 00 F0 01 01 FC 12
+
+GPS at present
+115200
+50ms
+$GPRMC

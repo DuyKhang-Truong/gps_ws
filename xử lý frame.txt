@@ -1,3 +1,0 @@
-cắt 7 byte header
--> cắt lat
--> cắt lng
