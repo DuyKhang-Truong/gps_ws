@@ -1,0 +1,2 @@
+gps_pkg
+-DCATKIN_DEVEL_PREFIX=/home/duykhang/AEV/Thesis/gps_ws/devel -DCMAKE_INSTALL_PREFIX=/home/duykhang/AEV/Thesis/gps_ws/install -G Unix Makefiles
