@@ -1,17 +1,24 @@
 #include "gps_handler.h"
 
+co_ordinates raw_ltn = {0, 0};
+coord_strore raw_data_spl;
+co_ordinates desire_ltn = {0, 0};
+sog_cog raw_sog_cog = {0, 0};
+
+gps_analysis_param analysis_param = {"GP", 0, 0, 0, 0, 0, 0, 0, 0};
+dec_drift_data_param dec_drift_param = {0, 0, 0.7, 0.0001, 0};
+
 bool init_cfg_port(void)
 {
     // Init Radar Config Port
     try
     {
-        ROS_INFO("I'm here 2");
         ser_Data_Port.setPort(ser_Data_Port_Name);
         ser_Data_Port.setBaudrate(115200);
         serial::Timeout to1 = serial::Timeout::simpleTimeout(1000);
         ser_Data_Port.setTimeout(to1);
         ser_Data_Port.open();
-        ROS_INFO("I'm here 3");
+
     }
     catch (serial::IOException& e)
     {
@@ -31,13 +38,24 @@ void timer_uart_Callback(const ros::TimerEvent& )
     {
         uint16_t dataLen = 0;
         dataLen = ser_Data_Port.available();
-        std_msgs::UInt8MultiArray raw_data;
-        ser_Data_Port.read(raw_data.data, ser_Data_Port.available());
+        std_msgs::UInt8MultiArray ros_raw_data;
+        ser_Data_Port.read(ros_raw_data.data, ser_Data_Port.available());
         ROS_INFO("Read: %u byte ---------------------", dataLen);
-        for(auto i = 0; i < dataLen; i++)
-        {
-            ROS_INFO("frame %d: %c", i, raw_data.data[i]);
-        }
+
+        // ROS_INFO("dec_drift_param.lng0: %f --------------", dec_drift_param.lng0);
+        // for(auto i = 0; i < dataLen; i++)
+        // {
+        //     ROS_INFO("frame %d: %c", i, raw_data.data[i]);
+        // }
+
+        std::string raw_data(ros_raw_data.data.begin(), ros_raw_data.data.end());
+
+        GPRMC_analysis(raw_data, raw_ltn, raw_sog_cog, analysis_param);
+        update_gps_spl(raw_data_spl, raw_ltn);
+        dec_drift_data(raw_data_spl, desire_ltn, dec_drift_param);
+
+        ROS_INFO("raw_lat: %f,   raw_lng: %f", raw_ltn.lat, raw_ltn.lng);
+        ROS_INFO("des_lat: %f,   des_lng: %f", desire_ltn.lat, desire_ltn.lng);
 
         
     }
@@ -67,14 +85,6 @@ int main(int argc, char** argv)
     }
 
     string raw_data = "$GPGLL,4717.11634,N,00833.91297,E,124923.00,A,A*6E";
-
-    co_ordinates raw_ltn = {0, 0};
-    coord_strore raw_data_spl;
-    co_ordinates desire_ltn = {0, 0};
-    sog_cog raw_sog_cog = {0, 0};
-
-    gps_analysis_param analysis_param = {"GP", 0, 0, 0, 0, 0, 0, 0, 0};
-    dec_drift_data_param dec_drift_param = {0, 0, 0.7, 0.0001, 0};
 
     // GPRMC_analysis(raw_data, raw_ltn, raw_sog_cog, analysis_param);
     // update_gps_spl(raw_data_spl, raw_ltn);
@@ -167,6 +177,7 @@ void GPRMC_analysis(string raw_data, co_ordinates &raw_ltn, sog_cog &raw_sog_cog
                 }
                 else
                 {
+                    ROS_INFO("No signal Lat");
                     break;
                 }
                 break;
@@ -181,6 +192,7 @@ void GPRMC_analysis(string raw_data, co_ordinates &raw_ltn, sog_cog &raw_sog_cog
                 }
                 else
                 {
+                    ROS_INFO("No signal Lng");
                     break;
                 }
                 break;
@@ -234,7 +246,7 @@ void update_gps_spl(coord_strore &raw_data_spl, co_ordinates raw_ltn)
     return;
 }
 
-void dec_drift_data(coord_strore &raw_data_spl, co_ordinates &desire_ltn, dec_drift_data_param dec_drift_param)
+void dec_drift_data(coord_strore raw_data_spl, co_ordinates &desire_ltn, dec_drift_data_param dec_drift_param)
 {
     for(int i = 0; i < raw_data_spl.lat_spl.size(); i++)
     {

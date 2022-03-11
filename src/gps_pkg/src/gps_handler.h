@@ -59,12 +59,12 @@ struct dec_drift_data_param
 
 
 
-void GPGLL_analysis(string raw_data, uint16_t dataLen, co_ordinates &raw_ltn, gps_analysis_param analysis_param);
+void GPGLL_analysis(string raw_data, co_ordinates &raw_ltn, gps_analysis_param analysis_param);
 
-void GPRMC_analysis(string raw_data, uint16_t dataLen, co_ordinates &raw_ltn, sog_cog &raw_sog_cog, gps_analysis_param analysis_param);
+void GPRMC_analysis(string raw_data, co_ordinates &raw_ltn, sog_cog &raw_sog_cog, gps_analysis_param analysis_param);
 
 void update_gps_spl(coord_strore &raw_data_spl, co_ordinates raw_ltn);
 
-void dec_drift_data(coord_strore &raw_data_spl, co_ordinates &desire_ltn, dec_drift_data_param dec_drift_param);
+void dec_drift_data(coord_strore raw_data_spl, co_ordinates &desire_ltn, dec_drift_data_param dec_drift_param);
 
 #endif // GPS_HANDLER_H
