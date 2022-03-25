@@ -92,8 +92,9 @@ void GPGLL_analysis(string raw_data, co_ordinates &raw_ltn, gps_analysis_param a
     else if ((analysis_param.pos = raw_data.find('$')) != 0)
     {
         raw_data.erase(0, analysis_param.pos);
-    }
-    else
+    } else;
+
+    if(raw_data.substr(0, 6) == "$GPGLL")
     {
         while ((analysis_param.pos = raw_data.find(',')) != string::npos)
         {
@@ -136,8 +137,8 @@ void GPGLL_analysis(string raw_data, co_ordinates &raw_ltn, gps_analysis_param a
             analysis_param.cnt++;
         }
     }
-
     return;
+    
 }
 
 void GPRMC_analysis(string raw_data, co_ordinates &raw_ltn, sog_cog &raw_sog_cog, gps_analysis_param analysis_param)
@@ -149,8 +150,9 @@ void GPRMC_analysis(string raw_data, co_ordinates &raw_ltn, sog_cog &raw_sog_cog
     else if ((analysis_param.pos = raw_data.find('$')) != 0)
     {
         raw_data.erase(0, analysis_param.pos);
-    }
-    else
+    } else;
+
+    if(raw_data.substr(0, 6) == "$GPRMC")
     {
         while ((analysis_param.pos = raw_data.find(',')) != string::npos)
         {
@@ -217,8 +219,9 @@ void GPRMC_analysis(string raw_data, co_ordinates &raw_ltn, sog_cog &raw_sog_cog
             analysis_param.cnt++;
         }
     }
-
+    
     return;
+
 }
 
 void update_gps_spl(coord_strore &raw_data_spl, co_ordinates raw_ltn)
