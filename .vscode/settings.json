@@ -3,6 +3,10 @@
         "array": "cpp",
         "string": "cpp",
         "string_view": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "deque": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "initializer_list": "cpp"
     }
 }
